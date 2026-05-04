@@ -16,6 +16,18 @@ export type Transaction = {
   timestamp: number;
 };
 
+export type PendingAttribution = {
+  amount: Paise;
+  timestamp: number;
+  description?: string;
+};
+
+export type PendingSpend = {
+  amount: Paise;
+  pocketId: ID;
+  description?: string;
+};
+
 export type AppState = {
   totalBalance: Paise;
   pockets: Pocket[];
