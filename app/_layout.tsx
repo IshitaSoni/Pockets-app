@@ -16,6 +16,10 @@ export default function RootLayout() {
           name="add-pocket"
           options={{ presentation: 'modal', headerShown: true }}
         />
+        <Stack.Screen
+          name="record-transaction"
+          options={{ presentation: 'modal', headerShown: true }}
+        />
       </Stack>
       <StatusBar style="auto" />
     </SafeAreaProvider>

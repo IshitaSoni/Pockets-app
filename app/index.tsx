@@ -107,7 +107,10 @@ export default function Home() {
               >
                 <Text className="text-slate-900 font-semibold">Add pocket</Text>
               </Pressable>
-              <Pressable className="flex-1 bg-slate-900 rounded-full py-3 items-center">
+              <Pressable
+                onPress={() => router.push('/record-transaction')}
+                className="flex-1 bg-slate-900 rounded-full py-3 items-center"
+              >
                 <Text className="text-white font-semibold">Record transaction</Text>
               </Pressable>
             </View>
