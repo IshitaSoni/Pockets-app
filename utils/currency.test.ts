@@ -1,4 +1,4 @@
-import { paise, rupeesToPaise, paiseToRupees, formatINR } from './currency';
+import { paise, rupeesToPaise, paiseToRupees, formatINR, formatINRCompact } from './currency';
 
 describe('paise()', () => {
   it('accepts integers including zero and negatives', () => {
@@ -51,5 +51,25 @@ describe('formatINR()', () => {
 
   it('formats negatives with leading minus', () => {
     expect(formatINR(paise(-50_000))).toBe('-₹500.00');
+  });
+});
+
+describe('formatINRCompact()', () => {
+  it('hides .00 when amount is a whole rupee', () => {
+    expect(formatINRCompact(paise(0))).toBe('₹0');
+    expect(formatINRCompact(paise(100))).toBe('₹1');
+    expect(formatINRCompact(paise(500000))).toBe('₹5,000');
+    expect(formatINRCompact(paise(10_000_000))).toBe('₹1,00,000');
+  });
+
+  it('keeps decimals when paise are non-zero', () => {
+    expect(formatINRCompact(paise(1))).toBe('₹0.01');
+    expect(formatINRCompact(paise(150))).toBe('₹1.50');
+    expect(formatINRCompact(paise(499999))).toBe('₹4,999.99');
+  });
+
+  it('handles negatives at both whole and fractional', () => {
+    expect(formatINRCompact(paise(-100000))).toBe('-₹1,000');
+    expect(formatINRCompact(paise(-150))).toBe('-₹1.50');
   });
 });

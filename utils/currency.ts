@@ -5,6 +5,13 @@ const inrFormatter = new Intl.NumberFormat('en-IN', {
   currency: 'INR',
 });
 
+const inrWholeFormatter = new Intl.NumberFormat('en-IN', {
+  style: 'currency',
+  currency: 'INR',
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
+});
+
 export function paise(amount: number): Paise {
   if (!Number.isInteger(amount)) {
     throw new Error(`Paise must be an integer, got ${amount}`);
@@ -21,5 +28,10 @@ export function paiseToRupees(amount: Paise): number {
 }
 
 export function formatINR(amount: Paise): string {
+  return inrFormatter.format(paiseToRupees(amount));
+}
+
+export function formatINRCompact(amount: Paise): string {
+  if (amount % 100 === 0) return inrWholeFormatter.format(paiseToRupees(amount));
   return inrFormatter.format(paiseToRupees(amount));
 }
