@@ -20,6 +20,18 @@ export default function RootLayout() {
           name="record-transaction"
           options={{ presentation: 'modal', headerShown: true }}
         />
+        <Stack.Screen
+          name="attribute"
+          options={{ presentation: 'modal', headerShown: true }}
+        />
+        <Stack.Screen
+          name="rebudget"
+          options={{ presentation: 'modal', headerShown: true }}
+        />
+        <Stack.Screen
+          name="reallocate"
+          options={{ presentation: 'modal', headerShown: true }}
+        />
       </Stack>
       <StatusBar style="auto" />
     </SafeAreaProvider>

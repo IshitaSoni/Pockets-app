@@ -9,21 +9,42 @@ export default function Home() {
   const totalBalance = usePocketsStore((s) => s.totalBalance);
   const pockets = usePocketsStore((s) => s.pockets);
   const pendingAttribution = usePocketsStore((s) => s.pendingAttribution);
+  const pendingSpend = usePocketsStore((s) => s.pendingSpend);
   const fc = usePocketsStore((s) => freeCash(s));
 
   const isOverdrawn = fc < 0;
   const isFresh = totalBalance === 0 && pockets.length === 0;
+  const pendingSpendPocket = pendingSpend
+    ? pockets.find((p) => p.id === pendingSpend.pocketId)
+    : null;
 
   return (
     <SafeAreaView className="flex-1 bg-slate-50">
       <ScrollView className="flex-1">
         {pendingAttribution && (
-          <Pressable className="bg-amber-100 border-b border-amber-200 px-6 py-4">
+          <Pressable
+            onPress={() => router.push('/attribute')}
+            className="bg-amber-100 border-b border-amber-200 px-6 py-4"
+          >
             <Text className="text-sm font-semibold text-amber-900">
               Debit detected: {formatINR(pendingAttribution.amount)}
             </Text>
             <Text className="text-xs text-amber-700 mt-1">
               Tap to allocate, or dismiss to Free Cash.
+            </Text>
+          </Pressable>
+        )}
+
+        {pendingSpend && pendingSpendPocket && (
+          <Pressable
+            onPress={() => router.push('/rebudget')}
+            className="bg-rose-100 border-b border-rose-200 px-6 py-4"
+          >
+            <Text className="text-sm font-semibold text-rose-900">
+              Rebudget {formatINR(pendingSpend.amount)} from {pendingSpendPocket.name}
+            </Text>
+            <Text className="text-xs text-rose-700 mt-1">
+              Tap to pick a source for the deficit.
             </Text>
           </Pressable>
         )}
@@ -58,14 +79,19 @@ export default function Home() {
             </Text>
 
             {isOverdrawn && (
-              <View className="bg-rose-50 border border-rose-200 rounded-xl p-4 mb-6">
+              <Pressable
+                onPress={() =>
+                  router.push({ pathname: '/reallocate', params: { to: 'freecash' } })
+                }
+                className="bg-rose-50 border border-rose-200 rounded-xl p-4 mb-6"
+              >
                 <Text className="text-sm font-semibold text-rose-900 mb-1">
                   Free Cash is overdrawn
                 </Text>
                 <Text className="text-xs text-rose-700">
-                  Reallocate from a pocket to bring Free Cash back to zero.
+                  Tap to pull from a pocket and bring Free Cash back to zero.
                 </Text>
-              </View>
+              </Pressable>
             )}
 
             <Text className="text-xs text-slate-500 uppercase tracking-wider mb-3">
@@ -87,15 +113,18 @@ export default function Home() {
             ) : (
               <View className="gap-2">
                 {pockets.map((p) => (
-                  <View
+                  <Pressable
                     key={p.id}
+                    onPress={() =>
+                      router.push({ pathname: '/reallocate', params: { from: p.id } })
+                    }
                     className="bg-white border border-slate-200 rounded-xl px-4 py-4 flex-row justify-between items-center"
                   >
                     <Text className="text-base font-semibold text-slate-900">{p.name}</Text>
                     <Text className="text-base font-semibold text-slate-900">
                       {formatINR(p.balance)}
                     </Text>
-                  </View>
+                  </Pressable>
                 ))}
               </View>
             )}
