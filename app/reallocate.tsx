@@ -1,6 +1,6 @@
 import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Modal, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Modal, Platform, Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { freeCash } from '../domain/match';
 import type { Paise } from '../domain/types';
 import { usePocketsStore } from '../store/store';
@@ -101,8 +101,12 @@ export default function Reallocate() {
   };
 
   return (
-    <ScrollView className="flex-1 bg-slate-50 px-6 pt-6">
-      <Stack.Screen options={{ title: 'Move Money' }} />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      className="flex-1"
+    >
+      <ScrollView className="flex-1 bg-slate-50 px-6 pt-6">
+        <Stack.Screen options={{ title: 'Move Money' }} />
 
       <Text className="text-xs text-slate-500 uppercase tracking-wider mb-2">From</Text>
       <View className="gap-2 mb-6">
@@ -202,6 +206,7 @@ export default function Reallocate() {
           </Pressable>
         </Pressable>
       </Modal>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }

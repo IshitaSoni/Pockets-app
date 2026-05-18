@@ -1,13 +1,17 @@
 import { router } from 'expo-router';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { TransactionRow } from '../components/TransactionRow';
 import { freeCash } from '../domain/match';
 import { usePocketsStore } from '../store/store';
 import { formatINRCompact as formatINR } from '../utils/currency';
 
+const RECENT_LIMIT = 10;
+
 export default function Home() {
   const totalBalance = usePocketsStore((s) => s.totalBalance);
   const pockets = usePocketsStore((s) => s.pockets);
+  const transactions = usePocketsStore((s) => s.transactions);
   const pendingAttribution = usePocketsStore((s) => s.pendingAttribution);
   const pendingSpend = usePocketsStore((s) => s.pendingSpend);
   const fc = usePocketsStore((s) => freeCash(s));
@@ -17,6 +21,11 @@ export default function Home() {
   const pendingSpendPocket = pendingSpend
     ? pockets.find((p) => p.id === pendingSpend.pocketId)
     : null;
+
+  const recentTransactions = [...transactions]
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .slice(0, RECENT_LIMIT);
+  const pocketById = new Map(pockets.map((p) => [p.id, p]));
 
   return (
     <SafeAreaView className="flex-1 bg-slate-50">
@@ -64,9 +73,14 @@ export default function Home() {
           </View>
         ) : (
           <View className="px-6 pt-8 pb-10">
-            <Text className="text-xs text-slate-500 uppercase tracking-wider mb-1">
-              Free Cash
-            </Text>
+            <View className="flex-row justify-between items-center mb-1">
+              <Text className="text-xs text-slate-500 uppercase tracking-wider">
+                Free Cash
+              </Text>
+              <Pressable onPress={() => router.push('/settings')}>
+                <Text className="text-sm text-slate-500 underline">Settings</Text>
+              </Pressable>
+            </View>
             <Text
               className={`text-4xl font-bold mb-2 ${
                 isOverdrawn ? 'text-rose-700' : 'text-slate-900'
@@ -115,9 +129,7 @@ export default function Home() {
                 {pockets.map((p) => (
                   <Pressable
                     key={p.id}
-                    onPress={() =>
-                      router.push({ pathname: '/reallocate', params: { from: p.id } })
-                    }
+                    onPress={() => router.push({ pathname: '/pocket/[id]', params: { id: p.id } })}
                     className="bg-white border border-slate-200 rounded-xl px-4 py-4 flex-row justify-between items-center"
                   >
                     <Text className="text-base font-semibold text-slate-900">{p.name}</Text>
@@ -143,6 +155,23 @@ export default function Home() {
                 <Text className="text-white font-semibold">Record transaction</Text>
               </Pressable>
             </View>
+
+            {recentTransactions.length > 0 && (
+              <View className="mt-10">
+                <Text className="text-xs text-slate-500 uppercase tracking-wider mb-3">
+                  Recent
+                </Text>
+                <View className="gap-2">
+                  {recentTransactions.map((tx) => (
+                    <TransactionRow
+                      key={tx.id}
+                      transaction={tx}
+                      pocket={tx.pocketId ? pocketById.get(tx.pocketId) ?? null : null}
+                    />
+                  ))}
+                </View>
+              </View>
+            )}
           </View>
         )}
       </ScrollView>

@@ -8,6 +8,7 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
+        <Stack.Screen name="pocket/[id]" options={{ headerShown: true }} />
         <Stack.Screen
           name="set-balance"
           options={{ presentation: 'modal', headerShown: true }}
@@ -30,6 +31,10 @@ export default function RootLayout() {
         />
         <Stack.Screen
           name="reallocate"
+          options={{ presentation: 'modal', headerShown: true }}
+        />
+        <Stack.Screen
+          name="settings"
           options={{ presentation: 'modal', headerShown: true }}
         />
       </Stack>

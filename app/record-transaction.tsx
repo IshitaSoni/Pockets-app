@@ -1,6 +1,6 @@
 import { router, Stack } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, Text, TextInput, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from 'react-native';
 import { usePocketsStore } from '../store/store';
 import { rupeesToPaise } from '../utils/currency';
 
@@ -36,8 +36,12 @@ export default function RecordTransaction() {
   };
 
   return (
-    <View className="flex-1 bg-slate-50 px-6 pt-6">
-      <Stack.Screen options={{ title: 'Record Transaction' }} />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      className="flex-1"
+    >
+      <View className="flex-1 bg-slate-50 px-6 pt-6">
+        <Stack.Screen options={{ title: 'Record Transaction' }} />
 
       <View className="flex-row bg-slate-200 rounded-full p-1 mb-6">
         <Pressable
@@ -101,12 +105,13 @@ export default function RecordTransaction() {
 
       {error && <Text className="text-sm text-rose-600 mb-2">{error}</Text>}
 
-      <Pressable
-        onPress={handleSave}
-        className="bg-slate-900 rounded-full py-3 items-center mt-4"
-      >
-        <Text className="text-white font-semibold">Save</Text>
-      </Pressable>
-    </View>
+        <Pressable
+          onPress={handleSave}
+          className="bg-slate-900 rounded-full py-3 items-center mt-4"
+        >
+          <Text className="text-white font-semibold">Save</Text>
+        </Pressable>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
