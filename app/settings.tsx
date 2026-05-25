@@ -8,6 +8,7 @@ import {
   paiseToRupees,
   rupeesToPaise,
 } from '../utils/currency';
+import { useEscapeToClose } from '../utils/useEscapeToClose';
 
 export default function Settings() {
   const totalBalance = usePocketsStore((s) => s.totalBalance);
@@ -17,6 +18,8 @@ export default function Settings() {
   const [draft, setDraft] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [confirmReset, setConfirmReset] = useState(false);
+
+  useEscapeToClose(!confirmReset);
 
   const startEdit = () => {
     setDraft(paiseToRupees(totalBalance).toString());
@@ -76,13 +79,13 @@ export default function Settings() {
           <View className="flex-row gap-2">
             <Pressable
               onPress={() => setEditing(false)}
-              className="flex-1 bg-slate-100 rounded-full py-3 items-center"
+              className="flex-1 bg-slate-100 hover:bg-slate-200 rounded-full py-3 items-center"
             >
               <Text className="text-slate-900 font-semibold">Cancel</Text>
             </Pressable>
             <Pressable
               onPress={saveEdit}
-              className="flex-1 bg-slate-900 rounded-full py-3 items-center"
+              className="flex-1 bg-slate-900 hover:bg-slate-800 rounded-full py-3 items-center"
             >
               <Text className="text-white font-semibold">Save</Text>
             </Pressable>
@@ -106,7 +109,7 @@ export default function Settings() {
           </Text>
           <Pressable
             onPress={() => setConfirmReset(true)}
-            className="bg-white border border-rose-300 rounded-full py-3 items-center"
+            className="bg-white hover:bg-rose-50 border border-rose-300 rounded-full py-3 items-center"
           >
             <Text className="text-rose-700 font-semibold">Reset all data</Text>
           </Pressable>
@@ -137,13 +140,13 @@ export default function Settings() {
             <View className="flex-row gap-3">
               <Pressable
                 onPress={() => setConfirmReset(false)}
-                className="flex-1 bg-slate-100 rounded-full py-3 items-center"
+                className="flex-1 bg-slate-100 hover:bg-slate-200 rounded-full py-3 items-center"
               >
                 <Text className="text-slate-900 font-semibold">Cancel</Text>
               </Pressable>
               <Pressable
                 onPress={doReset}
-                className="flex-1 bg-rose-600 rounded-full py-3 items-center"
+                className="flex-1 bg-rose-600 hover:bg-rose-700 rounded-full py-3 items-center"
               >
                 <Text className="text-white font-semibold">Reset</Text>
               </Pressable>

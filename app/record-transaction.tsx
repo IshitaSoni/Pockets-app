@@ -3,10 +3,12 @@ import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from 'react-native';
 import { usePocketsStore } from '../store/store';
 import { rupeesToPaise } from '../utils/currency';
+import { useEscapeToClose } from '../utils/useEscapeToClose';
 
 type Kind = 'debit' | 'credit';
 
 export default function RecordTransaction() {
+  useEscapeToClose();
   const recordIncomingDebit = usePocketsStore((s) => s.recordIncomingDebit);
   const deposit = usePocketsStore((s) => s.deposit);
 
@@ -47,7 +49,7 @@ export default function RecordTransaction() {
         <Pressable
           onPress={() => setKind('debit')}
           className={`flex-1 py-2 rounded-full items-center ${
-            kind === 'debit' ? 'bg-white' : ''
+            kind === 'debit' ? 'bg-white' : 'hover:bg-slate-100'
           }`}
         >
           <Text
@@ -61,7 +63,7 @@ export default function RecordTransaction() {
         <Pressable
           onPress={() => setKind('credit')}
           className={`flex-1 py-2 rounded-full items-center ${
-            kind === 'credit' ? 'bg-white' : ''
+            kind === 'credit' ? 'bg-white' : 'hover:bg-slate-100'
           }`}
         >
           <Text
@@ -107,7 +109,7 @@ export default function RecordTransaction() {
 
         <Pressable
           onPress={handleSave}
-          className="bg-slate-900 rounded-full py-3 items-center mt-4"
+          className="bg-slate-900 hover:bg-slate-800 rounded-full py-3 items-center mt-4"
         >
           <Text className="text-white font-semibold">Save</Text>
         </Pressable>

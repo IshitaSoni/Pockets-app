@@ -3,8 +3,10 @@ import { useState } from 'react';
 import { KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from 'react-native';
 import { usePocketsStore } from '../store/store';
 import { paiseToRupees, rupeesToPaise } from '../utils/currency';
+import { useEscapeToClose } from '../utils/useEscapeToClose';
 
 export default function SetBalance() {
+  useEscapeToClose();
   const setTotalBalance = usePocketsStore((s) => s.setTotalBalance);
   const current = usePocketsStore((s) => s.totalBalance);
   const [input, setInput] = useState(current === 0 ? '' : paiseToRupees(current).toString());
@@ -56,7 +58,7 @@ export default function SetBalance() {
 
         <Pressable
           onPress={handleSave}
-          className="bg-slate-900 rounded-full py-3 items-center mt-4"
+          className="bg-slate-900 hover:bg-slate-800 rounded-full py-3 items-center mt-4"
         >
           <Text className="text-white font-semibold">Save</Text>
         </Pressable>

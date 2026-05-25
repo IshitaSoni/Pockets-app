@@ -4,8 +4,10 @@ import { KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from
 import { freeCash } from '../domain/match';
 import { usePocketsStore } from '../store/store';
 import { formatINRCompact as formatINR, rupeesToPaise } from '../utils/currency';
+import { useEscapeToClose } from '../utils/useEscapeToClose';
 
 export default function AddPocket() {
+  useEscapeToClose();
   const addPocket = usePocketsStore((s) => s.addPocket);
   const fc = usePocketsStore((s) => freeCash(s));
   const [name, setName] = useState('');
@@ -76,7 +78,7 @@ export default function AddPocket() {
 
         <Pressable
           onPress={handleSave}
-          className="bg-slate-900 rounded-full py-3 items-center mt-4"
+          className="bg-slate-900 hover:bg-slate-800 rounded-full py-3 items-center mt-4"
         >
           <Text className="text-white font-semibold">Add Pocket</Text>
         </Pressable>

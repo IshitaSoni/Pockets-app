@@ -69,13 +69,13 @@ export default function PocketDetail() {
           <View className="flex-row gap-2">
             <Pressable
               onPress={cancelRename}
-              className="flex-1 bg-slate-100 rounded-full py-2 items-center"
+              className="flex-1 bg-slate-100 hover:bg-slate-200 rounded-full py-2 items-center"
             >
               <Text className="text-slate-900 font-semibold">Cancel</Text>
             </Pressable>
             <Pressable
               onPress={saveRename}
-              className="flex-1 bg-slate-900 rounded-full py-2 items-center"
+              className="flex-1 bg-slate-900 hover:bg-slate-800 rounded-full py-2 items-center"
             >
               <Text className="text-white font-semibold">Save</Text>
             </Pressable>
@@ -95,13 +95,13 @@ export default function PocketDetail() {
       <View className="flex-row gap-3 mb-8">
         <Pressable
           onPress={() => router.push({ pathname: '/reallocate', params: { from: pocket.id } })}
-          className="flex-1 bg-slate-900 rounded-full py-3 items-center"
+          className="flex-1 bg-slate-900 hover:bg-slate-800 rounded-full py-3 items-center"
         >
           <Text className="text-white font-semibold">Move money</Text>
         </Pressable>
         <Pressable
           onPress={() => setConfirmingDissolve(true)}
-          className="flex-1 bg-white border border-rose-300 rounded-full py-3 items-center"
+          className="flex-1 bg-white hover:bg-rose-50 border border-rose-300 rounded-full py-3 items-center"
         >
           <Text className="text-rose-700 font-semibold">Dissolve</Text>
         </Pressable>
@@ -150,13 +150,13 @@ export default function PocketDetail() {
             <View className="flex-row gap-3">
               <Pressable
                 onPress={() => setConfirmingDissolve(false)}
-                className="flex-1 bg-slate-100 rounded-full py-3 items-center"
+                className="flex-1 bg-slate-100 hover:bg-slate-200 rounded-full py-3 items-center"
               >
                 <Text className="text-slate-900 font-semibold">Cancel</Text>
               </Pressable>
               <Pressable
                 onPress={confirmDissolve}
-                className="flex-1 bg-rose-600 rounded-full py-3 items-center"
+                className="flex-1 bg-rose-600 hover:bg-rose-700 rounded-full py-3 items-center"
               >
                 <Text className="text-white font-semibold">Dissolve</Text>
               </Pressable>

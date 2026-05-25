@@ -5,6 +5,7 @@ import { freeCash } from '../domain/match';
 import type { Paise } from '../domain/types';
 import { usePocketsStore } from '../store/store';
 import { formatINRCompact as formatINR, rupeesToPaise } from '../utils/currency';
+import { useEscapeToClose } from '../utils/useEscapeToClose';
 
 const FC = 'freecash';
 
@@ -24,6 +25,8 @@ export default function Reallocate() {
   const [amount, setAmount] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [confirmingDissolve, setConfirmingDissolve] = useState(false);
+
+  useEscapeToClose(!confirmingDissolve);
 
   const sourceBalance: Paise =
     source === FC
@@ -81,7 +84,9 @@ export default function Reallocate() {
         key={`${which}-${value}`}
         onPress={() => handlePick(which, value)}
         className={`rounded-xl px-4 py-3 flex-row justify-between items-center border ${
-          selected ? 'bg-slate-900 border-slate-900' : 'bg-white border-slate-200'
+          selected
+            ? 'bg-slate-900 hover:bg-slate-800 border-slate-900'
+            : 'bg-white hover:bg-slate-100 border-slate-200'
         }`}
       >
         <Text
@@ -147,7 +152,7 @@ export default function Reallocate() {
 
       <Pressable
         onPress={handleSave}
-        className="bg-slate-900 rounded-full py-3 items-center mt-4 mb-2"
+        className="bg-slate-900 hover:bg-slate-800 rounded-full py-3 items-center mt-4 mb-2"
       >
         <Text className="text-white font-semibold">Move</Text>
       </Pressable>
@@ -156,7 +161,7 @@ export default function Reallocate() {
         <View className="border-t border-slate-200 pt-6 mt-6 mb-10">
           <Pressable
             onPress={() => setConfirmingDissolve(true)}
-            className="bg-white border border-rose-300 rounded-full py-3 items-center"
+            className="bg-white hover:bg-rose-50 border border-rose-300 rounded-full py-3 items-center"
           >
             <Text className="text-rose-700 font-semibold">
               Dissolve {sourcePocket.name}
@@ -192,13 +197,13 @@ export default function Reallocate() {
             <View className="flex-row gap-3">
               <Pressable
                 onPress={() => setConfirmingDissolve(false)}
-                className="flex-1 bg-slate-100 rounded-full py-3 items-center"
+                className="flex-1 bg-slate-100 hover:bg-slate-200 rounded-full py-3 items-center"
               >
                 <Text className="text-slate-900 font-semibold">Cancel</Text>
               </Pressable>
               <Pressable
                 onPress={confirmDissolve}
-                className="flex-1 bg-rose-600 rounded-full py-3 items-center"
+                className="flex-1 bg-rose-600 hover:bg-rose-700 rounded-full py-3 items-center"
               >
                 <Text className="text-white font-semibold">Dissolve</Text>
               </Pressable>

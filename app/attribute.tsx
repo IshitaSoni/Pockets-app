@@ -4,8 +4,10 @@ import { suggestAttribution } from '../domain/match';
 import type { ID } from '../domain/types';
 import { usePocketsStore } from '../store/store';
 import { formatINRCompact as formatINR } from '../utils/currency';
+import { useEscapeToClose } from '../utils/useEscapeToClose';
 
 export default function Attribute() {
+  useEscapeToClose();
   const pendingAttribution = usePocketsStore((s) => s.pendingAttribution);
   const pockets = usePocketsStore((s) => s.pockets);
   const attributePending = usePocketsStore((s) => s.attributePending);
@@ -45,7 +47,7 @@ export default function Attribute() {
           <Text className="text-xs text-slate-500 uppercase tracking-wider mb-2">Suggested</Text>
           <Pressable
             onPress={() => handlePick(suggestedPocket.id)}
-            className="bg-slate-900 rounded-xl px-4 py-4"
+            className="bg-slate-900 hover:bg-slate-800 rounded-xl px-4 py-4"
           >
             <Text className="text-white text-base font-semibold mb-1">
               From {suggestedPocket.name}
@@ -69,7 +71,7 @@ export default function Attribute() {
                 <Pressable
                   key={p.id}
                   onPress={() => handlePick(p.id)}
-                  className="bg-white border border-slate-200 rounded-xl px-4 py-4 flex-row justify-between items-center"
+                  className="bg-white hover:bg-slate-100 border border-slate-200 rounded-xl px-4 py-4 flex-row justify-between items-center"
                 >
                   <View>
                     <Text className="text-base font-semibold text-slate-900">{p.name}</Text>
@@ -87,7 +89,7 @@ export default function Attribute() {
 
       <Pressable
         onPress={() => handlePick(null)}
-        className="bg-white border border-slate-300 rounded-full py-3 items-center mb-10"
+        className="bg-white hover:bg-slate-50 border border-slate-300 rounded-full py-3 items-center mb-10"
       >
         <Text className="text-slate-900 font-semibold">It was uncategorized (Free Cash)</Text>
       </Pressable>

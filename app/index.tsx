@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, Stack } from 'expo-router';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TransactionRow } from '../components/TransactionRow';
@@ -29,11 +29,12 @@ export default function Home() {
 
   return (
     <SafeAreaView className="flex-1 bg-slate-50">
+      <Stack.Screen options={{ title: 'Pockets' }} />
       <ScrollView className="flex-1">
         {pendingAttribution && (
           <Pressable
             onPress={() => router.push('/attribute')}
-            className="bg-amber-100 border-b border-amber-200 px-6 py-4"
+            className="bg-amber-100 hover:bg-amber-200 border-b border-amber-200 px-6 py-4"
           >
             <Text className="text-sm font-semibold text-amber-900">
               Debit detected: {formatINR(pendingAttribution.amount)}
@@ -47,7 +48,7 @@ export default function Home() {
         {pendingSpend && pendingSpendPocket && (
           <Pressable
             onPress={() => router.push('/rebudget')}
-            className="bg-rose-100 border-b border-rose-200 px-6 py-4"
+            className="bg-rose-100 hover:bg-rose-200 border-b border-rose-200 px-6 py-4"
           >
             <Text className="text-sm font-semibold text-rose-900">
               Rebudget {formatINR(pendingSpend.amount)} from {pendingSpendPocket.name}
@@ -66,7 +67,7 @@ export default function Home() {
             </Text>
             <Pressable
               onPress={() => router.push('/set-balance')}
-              className="bg-slate-900 px-6 py-3 rounded-full"
+              className="bg-slate-900 hover:bg-slate-800 px-6 py-3 rounded-full"
             >
               <Text className="text-white font-semibold">Set bank balance</Text>
             </Pressable>
@@ -97,7 +98,7 @@ export default function Home() {
                 onPress={() =>
                   router.push({ pathname: '/reallocate', params: { to: 'freecash' } })
                 }
-                className="bg-rose-50 border border-rose-200 rounded-xl p-4 mb-6"
+                className="bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl p-4 mb-6"
               >
                 <Text className="text-sm font-semibold text-rose-900 mb-1">
                   Free Cash is overdrawn
@@ -119,7 +120,7 @@ export default function Home() {
                 </Text>
                 <Pressable
                   onPress={() => router.push('/add-pocket')}
-                  className="bg-slate-900 px-5 py-3 rounded-full"
+                  className="bg-slate-900 hover:bg-slate-800 px-5 py-3 rounded-full"
                 >
                   <Text className="text-white font-semibold">Add your first pocket</Text>
                 </Pressable>
@@ -130,7 +131,7 @@ export default function Home() {
                   <Pressable
                     key={p.id}
                     onPress={() => router.push({ pathname: '/pocket/[id]', params: { id: p.id } })}
-                    className="bg-white border border-slate-200 rounded-xl px-4 py-4 flex-row justify-between items-center"
+                    className="bg-white hover:bg-slate-100 border border-slate-200 rounded-xl px-4 py-4 flex-row justify-between items-center"
                   >
                     <Text className="text-base font-semibold text-slate-900">{p.name}</Text>
                     <Text className="text-base font-semibold text-slate-900">
@@ -144,13 +145,13 @@ export default function Home() {
             <View className="flex-row gap-3 mt-8">
               <Pressable
                 onPress={() => router.push('/add-pocket')}
-                className="flex-1 bg-white border border-slate-300 rounded-full py-3 items-center"
+                className="flex-1 bg-white hover:bg-slate-50 border border-slate-300 rounded-full py-3 items-center"
               >
                 <Text className="text-slate-900 font-semibold">Add pocket</Text>
               </Pressable>
               <Pressable
                 onPress={() => router.push('/record-transaction')}
-                className="flex-1 bg-slate-900 rounded-full py-3 items-center"
+                className="flex-1 bg-slate-900 hover:bg-slate-800 rounded-full py-3 items-center"
               >
                 <Text className="text-white font-semibold">Record transaction</Text>
               </Pressable>
